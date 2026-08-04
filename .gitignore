@@ -1,0 +1,15 @@
+# Segredos — nunca commitar
+.env
+
+# Dados reais — contêm informação da prefeitura / usuários reais
+users.json
+dados.json
+denuncias_recebidas.txt
+data/*.xlsx
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/

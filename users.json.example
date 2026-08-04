@@ -1,0 +1,11 @@
+{
+  "admin@example.com": {
+    "matricula": "000000",
+    "nome": "Administrador",
+    "email": "admin@example.com",
+    "senha": "SUBSTITUA_PELO_HASH_SHA256_DA_SENHA_PADRAO",
+    "primeiro_acesso": true,
+    "tentativas": 0,
+    "bloqueado": false
+  }
+}
