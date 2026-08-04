@@ -1,10 +1,10 @@
-# SEHAB — Servidor Unificado
+# SEHAB Servidor Unificado
 
 ## O que é este servidor?
 
 Este é o servidor unificado da SEHAB que combina os dois dashboards em um único processo:
 
-- **Dashboard Fiscalização** — Painel de dados do setor de Fiscalização HIS/HMP
+- **Dashboard Fiscalização** — Painel de dados do setor de Fiscalização HIS/HMP com atualização automática powwer automate
 - **Dashboard PROG** — Painel de programas habitacionais com upload de planilhas
 
 ## Fluxo de acesso
@@ -40,7 +40,7 @@ sehab_server/
 │   └── planilha_atual.xlsx ← Planilha do Dashboard PROG
 └── templates/
     ├── login.html          ← Tela de login
-    ├── selecionar.html     ← Nova tela de seleção de dashboard
+    ├── selecionar.html     ← Tela de seleção de dashboard
     ├── dashboard.html      ← Dashboard Fiscalização
     ├── prog_dashboard.html ← Dashboard PROG
     ├── trocar_senha.html
