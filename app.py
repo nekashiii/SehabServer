@@ -884,9 +884,6 @@ if __name__ == '__main__':
 
     threading.Thread(target=_loop_sincronizacao, daemon=True).start()
 
-    porta = int(os.environ.get('PORT', 5000))
-<<<<<<< HEAD
-    app.run(host='0.0.0.0', port=porta, debug=False, threaded=True)
-=======
-    app.run(host='0.0.0.0', port=porta, debug=False, threaded=True)
->>>>>>> 24c6618c79736fce22c217dbea44505885ace17f
+porta = 5000
+app.run(host='0.0.0.0', port=porta, debug=False, threaded=True)
+
