@@ -6,19 +6,23 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from dotenv import load_dotenv
 
-load_dotenv()  
+load_dotenv()  # lê o arquivo .env (local, nunca vai pro Git) e carrega em os.environ
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(32)
-app.config['TEMPLATES_AUTO_RELOAD'] = True 
+app.config['TEMPLATES_AUTO_RELOAD'] = True  # recarrega os templates (.html) sem precisar reiniciar o servidor
 
 BASE_DIR   = os.path.dirname(os.path.abspath(__file__))
 USERS_FILE = os.path.join(BASE_DIR, 'users.json')
 DADOS_FILE = os.path.join(BASE_DIR, 'dados.json')
 
 SYNC_URL = os.environ['SYNC_URL']
-SYNC_INTERVAL_SEGUNDOS = 30 * 60
+SYNC_INTERVAL_SEGUNDOS = 30 * 60  # a cada 30 minutos — ajuste se quiser outro intervalo
 
+# Denúncias Recebidas — único valor que não vem de nenhuma planilha nem é
+# editável pelo painel. Para atualizar, abra o arquivo abaixo e troque o
+# número (só o número, sem mais nada no arquivo). Não precisa mexer aqui
+# no app.py nem reiniciar o servidor — o valor é relido a cada sincronização.
 DENUNCIAS_RECEBIDAS_FILE = os.path.join(BASE_DIR, 'denuncias_recebidas.txt')
 
 def get_denuncias_recebidas():
@@ -126,8 +130,13 @@ def load_users():
         return json.load(f)
 
 def save_users(users):
-    with open(USERS_FILE, 'w', encoding='utf-8') as f:
-        json.dump(users, f, indent=2, ensure_ascii=False)
+    try:
+        with open(USERS_FILE, 'w', encoding='utf-8') as f:
+            json.dump(users, f, indent=2, ensure_ascii=False)
+    except OSError as e:
+        # Em alguns hospedagens (ex: Secret Files do Render) o arquivo é somente leitura.
+        # Não deve derrubar o login por causa disso — só loga o aviso.
+        print(f'[save_users] Nao foi possivel salvar users.json: {e}')
 
 def hash_senha(senha):
     return hashlib.sha256(senha.encode()).hexdigest()
@@ -884,6 +893,5 @@ if __name__ == '__main__':
 
     threading.Thread(target=_loop_sincronizacao, daemon=True).start()
 
-porta = 5000
-app.run(host='0.0.0.0', port=porta, debug=False, threaded=True)
-
+    porta = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=porta, debug=False, threaded=True)
