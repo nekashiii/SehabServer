@@ -127,7 +127,13 @@ def load_users():
     if not os.path.exists(USERS_FILE):
         return {}
     with open(USERS_FILE, encoding='utf-8') as f:
-        return json.load(f)
+        conteudo = f.read()
+    # Tolera lixo antes/depois do JSON (ex: colagem com texto extra, ``` etc.)
+    inicio = conteudo.find('{')
+    fim    = conteudo.rfind('}')
+    if inicio == -1 or fim == -1 or fim < inicio:
+        return {}
+    return json.loads(conteudo[inicio:fim + 1])
 
 def save_users(users):
     try:
